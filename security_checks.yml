@@ -1,0 +1,23 @@
+name: Security Checks
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Install ClamAV
+      run: sudo apt-get install clamav -y
+    - name: Run Security Checks
+      run: |
+        python ci_security_checks.py
